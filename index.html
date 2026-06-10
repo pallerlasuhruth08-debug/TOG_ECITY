@@ -115,6 +115,17 @@
   .c4 { background: linear-gradient(135deg, #2980b9, #3498db); }
   .c5 { background: linear-gradient(135deg, #7d3c98, #9b59b6); }
 
+  /* GROUP PROGRESS OVERVIEW */
+  .group-overview { background:#fff; border-radius:12px; padding:20px 24px; margin-bottom:24px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
+  .group-overview h3 { font-size:15px; font-weight:600; margin-bottom:16px; color:#2d2d2d; }
+  .gbar-list { display:flex; flex-direction:column; gap:11px; }
+  .gbar-row { display:flex; align-items:center; gap:12px; }
+  .gbar-label { width:86px; font-size:13px; font-weight:600; flex-shrink:0; }
+  .gbar-track { flex:1; height:22px; background:#f0f2f5; border-radius:6px; overflow:hidden; position:relative; }
+  .gbar-fill { height:100%; border-radius:6px; transition:width 0.6s ease; }
+  .gbar-pct { width:38px; font-size:13px; font-weight:600; color:#444; flex-shrink:0; text-align:right; }
+  .gbar-counts { width:52px; font-size:11px; color:#999; flex-shrink:0; text-align:right; }
+
   /* TABLE SCROLL WRAPPER */
   .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 
@@ -161,6 +172,11 @@
 
     .vol-section h4 { font-size: 12px; }
     .vol-tag { font-size: 11px; padding: 3px 9px; }
+
+    .group-overview { padding: 14px 14px; margin-bottom: 16px; }
+    .gbar-label { width: 72px; font-size: 11px; }
+    .gbar-pct { font-size: 11px; }
+    .gbar-counts { width: 44px; font-size: 10px; }
 
     .report-section { padding: 16px 12px; }
     .report-section h2 { font-size: 15px; }
@@ -250,6 +266,53 @@
     <div class="progress-labels">
       <span id="prog-delivered">16 delivered</span>
       <span id="prog-total">882 total</span>
+    </div>
+  </div>
+
+  <!-- GROUP PROGRESS OVERVIEW -->
+  <div class="group-overview">
+    <h3>📍 Group Progress at a Glance</h3>
+    <div class="gbar-list">
+      <div class="gbar-row">
+        <div class="gbar-label" style="color:#e74c3c">G1 · BTM</div>
+        <div class="gbar-track">
+          <div class="gbar-fill" id="gbar-1" style="width:0%;background:#e74c3c"></div>
+        </div>
+        <div class="gbar-pct" id="gpct-1">0%</div>
+        <div class="gbar-counts" id="gcnt-1">0 / 65</div>
+      </div>
+      <div class="gbar-row">
+        <div class="gbar-label" style="color:#e67e22">G2 · Hosa Rd</div>
+        <div class="gbar-track">
+          <div class="gbar-fill" id="gbar-2" style="width:0%;background:#e67e22"></div>
+        </div>
+        <div class="gbar-pct" id="gpct-2">0%</div>
+        <div class="gbar-counts" id="gcnt-2">0 / 101</div>
+      </div>
+      <div class="gbar-row">
+        <div class="gbar-label" style="color:#27ae60">G3 · Begur</div>
+        <div class="gbar-track">
+          <div class="gbar-fill" id="gbar-3" style="width:0.8%;background:#2ecc71"></div>
+        </div>
+        <div class="gbar-pct" id="gpct-3">0.8%</div>
+        <div class="gbar-counts" id="gcnt-3">1 / 129</div>
+      </div>
+      <div class="gbar-row">
+        <div class="gbar-label" style="color:#2980b9">G4 · EC City</div>
+        <div class="gbar-track">
+          <div class="gbar-fill" id="gbar-4" style="width:2.4%;background:#3498db"></div>
+        </div>
+        <div class="gbar-pct" id="gpct-4">2.4%</div>
+        <div class="gbar-counts" id="gcnt-4">12 / 491</div>
+      </div>
+      <div class="gbar-row">
+        <div class="gbar-label" style="color:#8e44ad">G5 · Chandap.</div>
+        <div class="gbar-track">
+          <div class="gbar-fill" id="gbar-5" style="width:3.1%;background:#9b59b6"></div>
+        </div>
+        <div class="gbar-pct" id="gpct-5">3.1%</div>
+        <div class="gbar-counts" id="gcnt-5">3 / 96</div>
+      </div>
     </div>
   </div>
 
