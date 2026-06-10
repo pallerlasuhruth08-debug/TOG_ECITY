@@ -115,9 +115,67 @@
   .c4 { background: linear-gradient(135deg, #2980b9, #3498db); }
   .c5 { background: linear-gradient(135deg, #7d3c98, #9b59b6); }
 
-  @media (max-width: 640px) {
-    .header { flex-direction: column; gap: 14px; }
+  /* TABLE SCROLL WRAPPER */
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* TABLET (≤900px) */
+  @media (max-width: 900px) {
     .metrics-row { grid-template-columns: repeat(2, 1fr); }
+    .group-header .g-big-num { font-size: 34px; }
+  }
+
+  /* MOBILE (≤640px) */
+  @media (max-width: 640px) {
+    .header { flex-direction: column; gap: 12px; padding: 20px 16px; }
+    .header h1 { font-size: 18px; }
+    .header .subtitle { font-size: 11px; }
+    .header .date-badge { font-size: 12px; padding: 6px 12px; align-self: flex-start; }
+
+    .container { padding: 16px 12px; }
+
+    .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+    .stat-card { padding: 14px 12px; }
+    .stat-card .s-value { font-size: 24px; }
+
+    .progress-wrap { padding: 16px; margin-bottom: 20px; }
+
+    .nav-pills { gap: 8px; margin-bottom: 20px; }
+    .nav-pills a { padding: 7px 14px; font-size: 12px; }
+
+    .group-card { margin-bottom: 20px; }
+    .group-header { padding: 14px 16px; flex-direction: column; gap: 8px; }
+    .group-header .g-name { font-size: 14px; }
+    .group-header .g-areas { font-size: 11px; }
+    .group-header .g-big-num { font-size: 28px; }
+    .group-header > div:last-child { display: flex; align-items: center; gap: 8px; }
+    .group-header .g-big-label { font-size: 11px; }
+
+    .group-body { padding: 14px 12px; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+    .metric-box { padding: 10px 8px; }
+    .metric-box .m-val { font-size: 18px; }
+    .metric-box .m-label { font-size: 10px; }
+
+    .mini-progress .mp-header { flex-wrap: wrap; gap: 2px; }
+    .mini-progress .mp-header span:last-child { font-size: 11px; color: #888; word-break: break-word; }
+
+    .vol-section h4 { font-size: 12px; }
+    .vol-tag { font-size: 11px; padding: 3px 9px; }
+
+    .report-section { padding: 16px 12px; }
+    .report-section h2 { font-size: 15px; }
+    .report-table { font-size: 12px; }
+    .report-table th, .report-table td { padding: 8px 8px; }
+
+    .appsheet-link { font-size: 12px; padding: 8px 14px; }
+    .footer { font-size: 11px; padding: 16px 12px; }
+  }
+
+  /* VERY SMALL (≤360px) */
+  @media (max-width: 360px) {
+    .header h1 { font-size: 15px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stat-card .s-value { font-size: 20px; }
   }
 </style>
 </head>
@@ -423,7 +481,7 @@
     <h2>📊 Daily End-of-Day Report</h2>
     <div class="report-sub">Summary sent nightly to pallerlasuhruth08@gmail.com · Updated from live AppSheet data</div>
 
-    <table class="report-table">
+    <div class="table-scroll"><table class="report-table">
       <thead>
         <tr>
           <th>Group</th>
@@ -472,7 +530,7 @@
           <td><span class="badge badge-progress">1.7% Done</span></td>
         </tr>
       </tbody>
-    </table>
+    </table></div>
 
     <div style="margin-top:20px">
       <a class="appsheet-link" href="https://www.appsheet.com/start/f62be3c7-2919-4f32-b42c-81663c030c47" target="_blank">
