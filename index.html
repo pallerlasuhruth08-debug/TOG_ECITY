@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>🙏 ToG Prasadam Distribution 2026 – Group Dashboard</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6fb; color: #2d2d2d; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff; padding: 28px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .header h1 { font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
+  .header .subtitle { font-size: 13px; opacity: 0.75; margin-top: 5px; }
+  .header .date-badge {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  }
+
+  .container { max-width: 1300px; margin: 0 auto; padding: 28px 20px; }
+
+  /* OVERALL STATS BAR */
+  .stats-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px; margin-bottom: 32px;
+  }
+  .stat-card {
+    background: #fff; border-radius: 12px; padding: 18px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    border-left: 4px solid var(--accent, #3498db);
+  }
+  .stat-card .s-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.7px; }
+  .stat-card .s-value { font-size: 32px; font-weight: 800; color: var(--accent, #3498db); margin-top: 4px; }
+  .stat-card .s-sub { font-size: 12px; color: #aaa; margin-top: 3px; }
+
+  /* OVERALL PROGRESS BAR */
+  .progress-wrap { background: #fff; border-radius: 12px; padding: 20px 24px; margin-bottom: 32px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+  .progress-wrap h3 { font-size: 14px; font-weight: 700; margin-bottom: 10px; color: #444; }
+  .progress-bar { height: 14px; background: #eee; border-radius: 7px; overflow: hidden; margin-bottom: 6px; }
+  .progress-fill { height: 100%; border-radius: 7px; background: linear-gradient(90deg, #2ecc71, #27ae60); transition: width 0.8s; }
+  .progress-labels { display: flex; justify-content: space-between; font-size: 12px; color: #888; }
+
+  /* NAV PILLS */
+  .nav-pills { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+  .nav-pills a {
+    padding: 9px 20px; border-radius: 24px; text-decoration: none;
+    font-size: 13px; font-weight: 600; color: #fff;
+    transition: opacity 0.2s, transform 0.1s;
+  }
+  .nav-pills a:hover { opacity: 0.85; transform: translateY(-1px); }
+
+  /* GROUP CARDS */
+  .group-card { background: #fff; border-radius: 14px; margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); overflow: hidden; }
+  .group-header {
+    padding: 18px 24px; color: #fff;
+    display: flex; justify-content: space-between; align-items: flex-start;
+  }
+  .group-header .g-name { font-size: 17px; font-weight: 800; }
+  .group-header .g-areas { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+  .group-header .g-big-num { font-size: 42px; font-weight: 900; line-height: 1; }
+  .group-header .g-big-label { font-size: 11px; opacity: 0.8; text-align: right; }
+
+  .group-body { padding: 20px 24px; }
+
+  .metrics-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+  .metric-box { background: #f8f9fb; border-radius: 10px; padding: 14px 16px; text-align: center; }
+  .metric-box .m-val { font-size: 22px; font-weight: 800; }
+  .metric-box .m-label { font-size: 11px; color: #888; margin-top: 3px; text-transform: uppercase; }
+
+  /* Mini progress */
+  .mini-progress { margin-bottom: 20px; }
+  .mini-progress .mp-header { display: flex; justify-content: space-between; font-size: 12px; color: #666; margin-bottom: 5px; }
+  .mini-bar { height: 8px; background: #eee; border-radius: 4px; overflow: hidden; }
+  .mini-fill { height: 100%; border-radius: 4px; }
+
+  /* Volunteer tags */
+  .vol-section h4 { font-size: 13px; font-weight: 700; color: #555; margin-bottom: 10px; }
+  .vol-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .vol-tag {
+    display: inline-block; padding: 4px 12px; border-radius: 14px;
+    font-size: 12px; font-weight: 500;
+    background: rgba(0,0,0,0.06); color: #444;
+  }
+  .no-vol { font-size: 13px; color: #aaa; font-style: italic; }
+  .warn-vol { font-size: 13px; color: #e67e22; font-style: italic; }
+
+  /* DAILY REPORT SECTION */
+  .report-section { background: #fff; border-radius: 14px; padding: 24px; margin-bottom: 28px; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+  .report-section h2 { font-size: 18px; font-weight: 800; margin-bottom: 6px; color: #333; }
+  .report-section .report-sub { font-size: 13px; color: #888; margin-bottom: 20px; }
+  .report-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .report-table th { background: #f4f6fb; padding: 10px 12px; text-align: left; font-weight: 700; border-bottom: 2px solid #e5e7ed; }
+  .report-table td { padding: 10px 12px; border-bottom: 1px solid #f0f2f5; }
+  .report-table tr:last-child td { border-bottom: none; }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; }
+  .badge-ok { background: #d4f8e8; color: #1a7a47; }
+  .badge-pending { background: #fde9e9; color: #c0392b; }
+  .badge-partial { background: #fef3cd; color: #9a6700; }
+  .badge-progress { background: #d6eaff; color: #1a5fa8; }
+
+  /* APPSHEET LINK */
+  .appsheet-link { display: inline-flex; align-items: center; gap: 8px; background: #0f3460; color: #fff; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 13px; }
+
+  /* Footer */
+  .footer { text-align: center; padding: 24px; font-size: 12px; color: #aaa; }
+
+  /* Color schemes */
+  .c1 { background: linear-gradient(135deg, #c0392b, #e74c3c); }
+  .c2 { background: linear-gradient(135deg, #d35400, #e67e22); }
+  .c3 { background: linear-gradient(135deg, #16a085, #2ecc71); }
+  .c4 { background: linear-gradient(135deg, #2980b9, #3498db); }
+  .c5 { background: linear-gradient(135deg, #7d3c98, #9b59b6); }
+
+  @media (max-width: 640px) {
+    .header { flex-direction: column; gap: 14px; }
+    .metrics-row { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <h1>🙏 ToG Prasadam Distribution 2026</h1>
+    <div class="subtitle">Donor Group Dashboard &nbsp;·&nbsp; 5 Geographic Clusters &nbsp;·&nbsp; 882 Total Donors</div>
+  </div>
+  <div class="date-badge" id="current-date">Loading...</div>
+</div>
+
+<div class="container">
+
+  <!-- OVERALL STATS -->
+  <div class="stats-grid">
+    <div class="stat-card" style="--accent:#3498db">
+      <div class="s-label">Total Donors</div>
+      <div class="s-value">882</div>
+      <div class="s-sub">across 5 groups</div>
+    </div>
+    <div class="stat-card" style="--accent:#2ecc71" id="card-delivered">
+      <div class="s-label">Delivered</div>
+      <div class="s-value" id="total-delivered">15</div>
+      <div class="s-sub" id="delivered-pct">1.7% complete</div>
+    </div>
+    <div class="stat-card" style="--accent:#e74c3c" id="card-pending">
+      <div class="s-label">Pending</div>
+      <div class="s-value" id="total-pending">867</div>
+      <div class="s-sub">yet to deliver</div>
+    </div>
+    <div class="stat-card" style="--accent:#9b59b6">
+      <div class="s-label">Volunteers</div>
+      <div class="s-value">297</div>
+      <div class="s-sub">donors assigned</div>
+    </div>
+    <div class="stat-card" style="--accent:#e74c3c">
+      <div class="s-label">Group 1 – BTM</div>
+      <div class="s-value">65</div>
+      <div class="s-sub">0 delivered</div>
+    </div>
+    <div class="stat-card" style="--accent:#e67e22">
+      <div class="s-label">Group 2 – Hosa Rd</div>
+      <div class="s-value">101</div>
+      <div class="s-sub">0 delivered</div>
+    </div>
+    <div class="stat-card" style="--accent:#2ecc71">
+      <div class="s-label">Group 3 – Begur</div>
+      <div class="s-value">129</div>
+      <div class="s-sub">0 delivered</div>
+    </div>
+    <div class="stat-card" style="--accent:#3498db">
+      <div class="s-label">Group 4 – EC</div>
+      <div class="s-value">491</div>
+      <div class="s-sub" id="g4-del">12 delivered ✅</div>
+    </div>
+    <div class="stat-card" style="--accent:#9b59b6">
+      <div class="s-label">Group 5 – Chandapura</div>
+      <div class="s-value">96</div>
+      <div class="s-sub">3 delivered ✅</div>
+    </div>
+  </div>
+
+  <!-- OVERALL PROGRESS -->
+  <div class="progress-wrap">
+    <h3>Overall Delivery Progress</h3>
+    <div class="progress-bar">
+      <div class="progress-fill" id="overall-bar" style="width:1.7%"></div>
+    </div>
+    <div class="progress-labels">
+      <span id="prog-delivered">15 delivered</span>
+      <span id="prog-total">882 total</span>
+    </div>
+  </div>
+
+  <!-- NAV PILLS -->
+  <div class="nav-pills">
+    <a href="#group1" style="background:#e74c3c">Group 1 · BTM (65)</a>
+    <a href="#group2" style="background:#e67e22">Group 2 · Hosa Road (101)</a>
+    <a href="#group3" style="background:#2ecc71">Group 3 · Begur (129)</a>
+    <a href="#group4" style="background:#3498db">Group 4 · EC City (491)</a>
+    <a href="#group5" style="background:#9b59b6">Group 5 · Chandapura (96)</a>
+    <a href="#daily-report" style="background:#1a1a2e">📊 Daily Report</a>
+  </div>
+
+  <!-- GROUP 1 -->
+  <div class="group-card" id="group1">
+    <div class="group-header c1">
+      <div>
+        <div class="g-name">Group 1 – BTM Layout / Madiwala / Silkboard / HSR Layout</div>
+        <div class="g-areas">Areas: BTM Layout, Madiwala, Silk Board Junction, HSR Layout, Bommanahalli, Hongasandra</div>
+      </div>
+      <div>
+        <div class="g-big-num">65</div>
+        <div class="g-big-label">donors</div>
+      </div>
+    </div>
+    <div class="group-body">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">65</div><div class="m-label">Total</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">0</div><div class="m-label">Delivered</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">65</div><div class="m-label">Pending</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#3498db">1</div><div class="m-label">Assigned</div></div>
+      </div>
+      <div class="mini-progress">
+        <div class="mp-header"><span>Delivery Progress</span><span>0 / 65</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:0%;background:#e74c3c"></div></div>
+      </div>
+      <div class="vol-section">
+        <h4>👥 Volunteers Assigned (1)</h4>
+        <div class="vol-tags">
+          <span class="vol-tag">Shiva Teja</span>
+        </div>
+        <p class="warn-vol" style="margin-top:8px">⚠️ 64 donors not yet assigned to a volunteer in AppSheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUP 2 -->
+  <div class="group-card" id="group2">
+    <div class="group-header c2">
+      <div>
+        <div class="g-name">Group 2 – Hosa Road / Kudlu Gate / Singasandra</div>
+        <div class="g-areas">Areas: Hosa Road, Kudlu Gate, Singasandra, Hosur Road corridor</div>
+      </div>
+      <div>
+        <div class="g-big-num">101</div>
+        <div class="g-big-label">donors</div>
+      </div>
+    </div>
+    <div class="group-body">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="m-val" style="color:#e67e22">101</div><div class="m-label">Total</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">0</div><div class="m-label">Delivered</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">101</div><div class="m-label">Pending</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#3498db">49</div><div class="m-label">Assigned</div></div>
+      </div>
+      <div class="mini-progress">
+        <div class="mp-header"><span>Delivery Progress</span><span>0 / 101</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:0%;background:#e67e22"></div></div>
+      </div>
+      <div class="vol-section">
+        <h4>👥 Volunteers Assigned (14)</h4>
+        <div class="vol-tags">
+          <span class="vol-tag">Shiva Teja</span>
+          <span class="vol-tag">Arun A</span>
+          <span class="vol-tag">Sneha</span>
+          <span class="vol-tag">Hariprasad Bangaradka</span>
+          <span class="vol-tag">Bhaavya C</span>
+          <span class="vol-tag">Sumathi</span>
+          <span class="vol-tag">Divyank Sabhaya</span>
+          <span class="vol-tag">Debasish Das</span>
+          <span class="vol-tag">M. Kishan</span>
+          <span class="vol-tag">Karthik</span>
+          <span class="vol-tag">Thiruvengadam Arasalwar</span>
+          <span class="vol-tag">Shilpa</span>
+          <span class="vol-tag">Nitesh Shaw</span>
+          <span class="vol-tag">M S Santosh Kumar</span>
+        </div>
+        <p class="warn-vol" style="margin-top:8px">⚠️ 52 donors not yet assigned to a volunteer in AppSheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUP 3 -->
+  <div class="group-card" id="group3">
+    <div class="group-header c3">
+      <div>
+        <div class="g-name">Group 3 – Begur / Akshayanagar</div>
+        <div class="g-areas">Areas: Begur Road, Begur Village, Begur Hobli, Akshayanagar, DLF Westend Heights area</div>
+      </div>
+      <div>
+        <div class="g-big-num">129</div>
+        <div class="g-big-label">donors</div>
+      </div>
+    </div>
+    <div class="group-body">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">129</div><div class="m-label">Total</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">0</div><div class="m-label">Delivered</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">129</div><div class="m-label">Pending</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#3498db">31</div><div class="m-label">Assigned</div></div>
+      </div>
+      <div class="mini-progress">
+        <div class="mp-header"><span>Delivery Progress</span><span>0 / 129</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:0%;background:#2ecc71"></div></div>
+      </div>
+      <div class="vol-section">
+        <h4>👥 Volunteers Assigned (4)</h4>
+        <div class="vol-tags">
+          <span class="vol-tag">Nithya</span>
+          <span class="vol-tag">Geetha Raju</span>
+          <span class="vol-tag">Thiruvengadam Arasalwar</span>
+          <span class="vol-tag">Sumathi</span>
+        </div>
+        <p class="warn-vol" style="margin-top:8px">⚠️ 98 donors not yet assigned to a volunteer in AppSheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUP 4 -->
+  <div class="group-card" id="group4">
+    <div class="group-header c4">
+      <div>
+        <div class="g-name">Group 4 – Electronic City Phase 1 &amp; 2 / Anant Nagar</div>
+        <div class="g-areas">Areas: Electronic City Phase 1, Electronic City Phase 2, Anant Nagar, EC Tech Park area</div>
+      </div>
+      <div>
+        <div class="g-big-num">491</div>
+        <div class="g-big-label">donors</div>
+      </div>
+    </div>
+    <div class="group-body">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="m-val" style="color:#3498db">491</div><div class="m-label">Total</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">12</div><div class="m-label">Delivered</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">479</div><div class="m-label">Pending</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#3498db">207</div><div class="m-label">Assigned</div></div>
+      </div>
+      <div class="mini-progress">
+        <div class="mp-header"><span>Delivery Progress</span><span>12 / 491 · Henry Singh 8 🏆 · Sanjay Sahu 2 · Geetha Raju 2</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:2.44%;background:#3498db"></div></div>
+      </div>
+      <div class="vol-section">
+        <h4>👥 Volunteers Assigned (28)</h4>
+        <div class="vol-tags">
+          <span class="vol-tag">Sneha</span>
+          <span class="vol-tag">Prashant</span>
+          <span class="vol-tag">GAJENDRA T K</span>
+          <span class="vol-tag">Sumathi</span>
+          <span class="vol-tag">Hariprasad Bangaradka</span>
+          <span class="vol-tag">Nitesh Shaw</span>
+          <span class="vol-tag">Henry Singh</span>
+          <span class="vol-tag">Sanjay Sahu</span>
+          <span class="vol-tag">Prajwal R S</span>
+          <span class="vol-tag">Shreesha Naik</span>
+          <span class="vol-tag">Sivarani</span>
+          <span class="vol-tag">Debasish Das</span>
+          <span class="vol-tag">Geetha Raju</span>
+          <span class="vol-tag">Suhruth</span>
+          <span class="vol-tag">Bhaavya C</span>
+          <span class="vol-tag">Nithya</span>
+          <span class="vol-tag">Pranavi</span>
+          <span class="vol-tag">Bindiya</span>
+          <span class="vol-tag">Tushar Anand Sisodia</span>
+          <span class="vol-tag">M. Kishan</span>
+          <span class="vol-tag">Divyank Sabhaya</span>
+          <span class="vol-tag">Shiva Teja</span>
+          <span class="vol-tag">M S Santosh Kumar</span>
+          <span class="vol-tag">Amrutha S</span>
+          <span class="vol-tag">Arun A</span>
+          <span class="vol-tag">Thiruvengadam Arasalwar</span>
+          <span class="vol-tag">Shilpa</span>
+          <span class="vol-tag">Karthik</span>
+        </div>
+        <p class="warn-vol" style="margin-top:8px">⚠️ 284 donors not yet assigned to a volunteer in AppSheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- GROUP 5 -->
+  <div class="group-card" id="group5">
+    <div class="group-header c5">
+      <div>
+        <div class="g-name">Group 5 – Chandapura / Anekal / Attibele / Bomasandra</div>
+        <div class="g-areas">Areas: Chandapura, Anekal, Attibele, Bomasandra — outermost zone along Hosur Road</div>
+      </div>
+      <div>
+        <div class="g-big-num">96</div>
+        <div class="g-big-label">donors</div>
+      </div>
+    </div>
+    <div class="group-body">
+      <div class="metrics-row">
+        <div class="metric-box"><div class="m-val" style="color:#9b59b6">96</div><div class="m-label">Total</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#2ecc71">3</div><div class="m-label">Delivered</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#e74c3c">93</div><div class="m-label">Pending</div></div>
+        <div class="metric-box"><div class="m-val" style="color:#3498db">9</div><div class="m-label">Assigned</div></div>
+      </div>
+      <div class="mini-progress">
+        <div class="mp-header"><span>Delivery Progress</span><span>3 / 96 · Krishnaprasad Shetty 3 🏆</span></div>
+        <div class="mini-bar"><div class="mini-fill" style="width:3.13%;background:#9b59b6"></div></div>
+      </div>
+      <div class="vol-section">
+        <h4>👥 Volunteers Assigned (6)</h4>
+        <div class="vol-tags">
+          <span class="vol-tag">Krishnaprasad Shetty</span>
+          <span class="vol-tag">Bindiya</span>
+          <span class="vol-tag">Bhaavya C</span>
+          <span class="vol-tag">Hariprasad Bangaradka</span>
+          <span class="vol-tag">Sneha</span>
+          <span class="vol-tag">Renuka Nanda - C</span>
+        </div>
+        <p class="warn-vol" style="margin-top:8px">⚠️ 87 donors not yet assigned to a volunteer in AppSheet.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DAILY REPORT SECTION -->
+  <div class="report-section" id="daily-report">
+    <h2>📊 Daily End-of-Day Report</h2>
+    <div class="report-sub">Summary sent nightly to pallerlasuhruth08@gmail.com · Updated from live AppSheet data</div>
+
+    <table class="report-table">
+      <thead>
+        <tr>
+          <th>Group</th>
+          <th>Areas</th>
+          <th>Total</th>
+          <th>Delivered</th>
+          <th>Pending</th>
+          <th>Assigned</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong style="color:#e74c3c">Group 1</strong></td>
+          <td>BTM / Madiwala / Silkboard / HSR / Bomanhalli / Hongasandra</td>
+          <td>65</td><td>0</td><td>65</td><td>1</td>
+          <td><span class="badge badge-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#e67e22">Group 2</strong></td>
+          <td>Hosa Road / Kudlu Gate / Singasandra</td>
+          <td>101</td><td>0</td><td>101</td><td>49</td>
+          <td><span class="badge badge-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#2ecc71">Group 3</strong></td>
+          <td>Begur / Akshayanagar</td>
+          <td>129</td><td>0</td><td>129</td><td>31</td>
+          <td><span class="badge badge-pending">Pending</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#3498db">Group 4</strong></td>
+          <td>EC Phase 1 &amp; 2 / Anant Nagar</td>
+          <td>491</td><td>12</td><td>479</td><td>207</td>
+          <td><span class="badge badge-progress">In Progress</span></td>
+        </tr>
+        <tr>
+          <td><strong style="color:#9b59b6">Group 5</strong></td>
+          <td>Chandapura / Anekal / Attibele / Bomasandra</td>
+          <td>96</td><td>3</td><td>93</td><td>9</td>
+          <td><span class="badge badge-progress">In Progress</span></td>
+        </tr>
+        <tr style="background:#f8f9fb;font-weight:700">
+          <td>TOTAL</td><td></td>
+          <td>882</td><td>15</td><td>867</td><td>297</td>
+          <td><span class="badge badge-progress">1.7% Done</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div style="margin-top:20px">
+      <a class="appsheet-link" href="https://www.appsheet.com/start/f62be3c7-2919-4f32-b42c-81663c030c47" target="_blank">
+        🔗 Open in AppSheet
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  ToG Prasadam Distribution 2026 &nbsp;·&nbsp; Last synced from AppSheet IndexedDB &nbsp;·&nbsp;
+  Group counts: G1=65 · G2=101 · G3=129 · G4=491 · G5=96 · Total=882
+</div>
+
+<script>
+  // Date badge
+  document.getElementById('current-date').textContent =
+    new Date().toLocaleDateString('en-IN', {weekday:'short', day:'numeric', month:'short', year:'numeric'});
+</script>
+
+</body>
+</html>
